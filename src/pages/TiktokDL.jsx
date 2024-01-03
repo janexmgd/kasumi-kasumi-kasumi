@@ -20,26 +20,33 @@ const TiktokDL = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleDownload = async () => {
-    const url = result.data.url;
-    const id = result.data.id;
-    const username = result.data.username;
-    const response = await axios.get(url, { responseType: 'blob' });
-    const blob = new Blob([response.data]);
-    const urlObject = window.URL.createObjectURL(blob);
+    try {
+      setLoading(true);
+      const url = result.data.url;
+      const id = result.data.id;
+      const username = result.data.username;
+      const response = await axios.get(url, { responseType: 'blob' });
+      const blob = new Blob([response.data]);
+      const urlObject = window.URL.createObjectURL(blob);
 
-    // Buat elemen <a> untuk mengeksekusi unduhan
-    const a = document.createElement('a');
-    a.href = urlObject;
-    if (result.data.type == 'video') {
-      a.download = `${username}_${id}.mp4`; // Nama file unduhan
-    } else {
-      console.log('b');
+      // Buat elemen <a> untuk mengeksekusi unduhan
+      const a = document.createElement('a');
+      a.href = urlObject;
+      if (result.data.type == 'video') {
+        a.download = `${username}_${id}.mp4`; // Nama file unduhan
+      } else {
+        console.log('b');
+      }
+
+      a.click();
+
+      // Bebaskan objek URL setelah pengunduhan
+      window.URL.revokeObjectURL(urlObject);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
     }
-
-    a.click();
-
-    // Bebaskan objek URL setelah pengunduhan
-    window.URL.revokeObjectURL(urlObject);
   };
   const handleSubmit = async (e) => {
     try {
@@ -116,8 +123,9 @@ const TiktokDL = () => {
                       variant='contained'
                       color='primary'
                       onClick={() => handleDownload()}
+                      disabled={loading}
                     >
-                      Download
+                      {loading ? 'Loading' : 'Download'}
                     </Button>
                   </CardActions>
                 </Card>
