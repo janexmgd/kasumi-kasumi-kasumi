@@ -1,7 +1,18 @@
 import { Fragment, useState } from 'react';
+import Footer from '../component/Footer.jsx';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+} from '@mui/material';
 import axios from 'axios';
 import '../assets/css/TiktokDL.css';
 import Navbar from '../component/Navbar.jsx';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme();
 
 const TiktokDL = () => {
   const [urlTiktok, setUrlTiktok] = useState('');
@@ -52,65 +63,72 @@ const TiktokDL = () => {
 
   return (
     <Fragment>
-      <div>
-        <Navbar />
-        <div className='container-fluid d-flex justify-content-center align-items-center'>
-          <div className='card container w-75 mt-2 d-flex align-items-center shadow'>
-            <h2 className='mt-5'>Tiktok downloader</h2>
-            <form
-              className='w-100 d-flex align-items-center justify-content-center flex-column '
-              onSubmit={handleSubmit}
-            >
-              <label htmlFor='videoUrl'>Insert Tiktok Link</label>
-              <div className='input-with-button d-flex flex-column'>
-                <input
-                  type='text'
-                  id='videoUrl'
-                  name='videoUrl'
-                  value={urlTiktok}
-                  onChange={(e) => setUrlTiktok(e.target.value)}
-                  required
-                />
-                <button
-                  type='submit'
-                  disabled={loading}
-                  className='download-bt mt-2'
-                >
-                  {loading ? 'Loading......' : 'Download.......'}
-                </button>
-              </div>
-            </form>
-            {result ? (
-              // Display the result here
-              <div className='w-100 d-flex justify-content-center align-items-center flex-column'>
-                <p>{result.data.username}</p>
-                <p>{result.data.desc}</p>
-                <div className='d-flex w-100 flex-column justify-content-center align-items-center'>
-                  <h3>Video Player</h3>
-                  <div className='d-flex w-100 flex-column justify-content-center align-items-center'>
-                    <iframe
-                      title='Embedded Video'
-                      width='360'
-                      height='auto'
-                      src={result.data.url}
-                      frameBorder='0'
-                      allowFullScreen
-                    ></iframe>
-                  </div>
+      <ThemeProvider theme={theme}>
+        <div>
+          <Navbar />
+          <div className='container-fluid d-flex justify-content-center align-items-center'>
+            <div className='card container w-75 mt-2 d-flex align-items-center shadow'>
+              <h2 className='mt-5'>Tiktok downloader</h2>
+              <form
+                className='w-100 d-flex align-items-center justify-content-center flex-column '
+                onSubmit={handleSubmit}
+              >
+                <label htmlFor='videoUrl'>Insert Tiktok Link</label>
+                <div className='input-with-button d-flex flex-column'>
+                  <input
+                    type='text'
+                    id='videoUrl'
+                    name='videoUrl'
+                    value={urlTiktok}
+                    onChange={(e) => setUrlTiktok(e.target.value)}
+                    required
+                  />
+                  <Button
+                    variant='contained'
+                    type='submit'
+                    disabled={loading}
+                    className='mt-2 mb-5'
+                  >
+                    {loading ? 'Loading......' : 'Download.......'}
+                  </Button>
                 </div>
-                <button
-                  className='download-bt mt-5'
-                  onClick={() => handleDownload()}
-                >
-                  Download Video
-                </button>
-              </div>
-            ) : error ? (
-              <p className='video-not-found'>{error}</p>
-            ) : null}
+              </form>
+              {result ? (
+                // Display the result here
+                <Card className='mb-5 d-flex align-items-center justify-content-center flex-column'>
+                  <video width='50%' height='auto' controls>
+                    <source src={result.data.url} type='video/mp4' />
+                    Your browser does not support the video tag.
+                  </video>
+
+                  <CardContent>
+                    <Typography variant='h6' gutterBottom>
+                      {result.data.username}
+                    </Typography>
+
+                    <Typography variant='body2' color='textSecondary'>
+                      {result.data.desc}
+                    </Typography>
+                  </CardContent>
+
+                  <CardActions>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => handleDownload()}
+                    >
+                      Download
+                    </Button>
+                  </CardActions>
+                </Card>
+              ) : error ? (
+                <p className='video-not-found'>{error}</p>
+              ) : null}
+            </div>
           </div>
+          <Footer />
         </div>
-      </div>
+      </ThemeProvider>
     </Fragment>
   );
 };
