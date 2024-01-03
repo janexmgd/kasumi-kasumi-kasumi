@@ -1,0 +1,10 @@
+body {
+  background-color: burlywood;
+}
+.card {
+  height: 50vh;
+}
+.download-bt {
+  background-color: blue;
+  border: none;
+}
