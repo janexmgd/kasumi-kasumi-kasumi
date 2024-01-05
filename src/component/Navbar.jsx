@@ -41,12 +41,17 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Your App Name
+            kasumi-kasumi-kasumi
           </Typography>
-          {/* Hanya tampilkan tombol Login pada layar besar */}
-          <Button color='inherit' sx={{ display: { xs: 'none', md: 'block' } }}>
-            Login
-          </Button>
+          {menuItems.map((text) => (
+            <Button
+              key={text}
+              color='inherit'
+              sx={{ display: { xs: 'none', md: 'block' } }}
+            >
+              {text}
+            </Button>
+          ))}
         </Toolbar>
       </AppBar>
       <Drawer
