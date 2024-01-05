@@ -9,6 +9,7 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,7 +30,6 @@ const Navbar = () => {
     <div>
       <AppBar position='static'>
         <Toolbar>
-          {/* Hanya tampilkan tombol Menu pada layar kecil */}
           <IconButton
             size='large'
             edge='start'
@@ -40,18 +40,31 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            kasumi-kasumi-kasumi
-          </Typography>
-          {menuItems.map((text) => (
-            <Button
-              key={text}
-              color='inherit'
-              sx={{ display: { xs: 'none', md: 'block' } }}
-            >
-              {text}
-            </Button>
-          ))}
+          <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+            <div className='w-50'>
+              <Link to='/home' className='text-decoration-none'>
+                <Typography
+                  className='text-white'
+                  variant='h6'
+                  component='div'
+                  sx={{ flexGrow: 1, mr: { md: 2 } }}
+                >
+                  kasumi-kasumi-kasumi
+                </Typography>
+              </Link>
+            </div>
+            <div className='w-50 d-flex justify-content-end '>
+              {menuItems.map((text) => (
+                <Button
+                  key={text}
+                  color='inherit'
+                  sx={{ display: { xs: 'none', md: 'block' } }}
+                >
+                  {text}
+                </Button>
+              ))}
+            </div>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer

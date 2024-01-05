@@ -38,11 +38,8 @@ const ImageCarousel = ({
       }
 
       const urlObject = window.URL.createObjectURL(blob);
-
       const a = document.createElement('a');
       a.href = urlObject;
-
-      // Menggunakan API download untuk mengunduh file
       a.download = `${username}_${id}_${currentImageIndex}.png`;
       a.click();
       window.URL.revokeObjectURL(urlObject);
@@ -87,7 +84,11 @@ const ImageCarousel = ({
           onClick={() => handleDownload()}
           disabled={loading}
         >
-          {loading ? 'Loading' : 'Download'}
+          {loading ? (
+            <div className='spinner-border text-warning' role='status'></div>
+          ) : (
+            'Download'
+          )}
         </Button>
         <Button
           variant='contained'
@@ -95,7 +96,11 @@ const ImageCarousel = ({
           onClick={() => handleReset()}
           disabled={loading}
         >
-          {loading ? 'Loading....' : 'Refetch'}
+          {loading ? (
+            <div className='spinner-border text-warning' role='status'></div>
+          ) : (
+            'Refetch'
+          )}
         </Button>
       </div>
 

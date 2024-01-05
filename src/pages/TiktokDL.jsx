@@ -105,14 +105,29 @@ const TiktokDL = () => {
                       onChange={(e) => setUrlTiktok(e.target.value)}
                       required
                     />
-                    <Button
-                      variant='contained'
-                      type='submit'
-                      disabled={loading}
-                      className='mt-2'
-                    >
-                      {loading ? 'Loading......' : 'Download.......'}
-                    </Button>
+
+                    {loading ? (
+                      <Button
+                        variant='contained'
+                        type='submit'
+                        disabled={loading}
+                        className='mt-2 loader'
+                      >
+                        <div
+                          className='spinner-border text-warning'
+                          role='status'
+                        ></div>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant='contained'
+                        type='submit'
+                        disabled={loading}
+                        className='mt-2'
+                      >
+                        Download
+                      </Button>
+                    )}
                   </div>
                 </form>
               )}
@@ -142,7 +157,14 @@ const TiktokDL = () => {
                       onClick={handleDownload}
                       disabled={loading}
                     >
-                      {loading ? 'Loading' : 'Download'}
+                      {loading ? (
+                        <div
+                          className='spinner-border text-warning'
+                          role='status'
+                        ></div>
+                      ) : (
+                        'Download'
+                      )}
                     </Button>
                     <Button
                       variant='contained'
@@ -150,7 +172,14 @@ const TiktokDL = () => {
                       onClick={handleReset}
                       disabled={loading}
                     >
-                      {loading ? 'Loading....' : 'Refetch'}
+                      {loading ? (
+                        <div
+                          className='spinner-border text-warning'
+                          role='status'
+                        ></div>
+                      ) : (
+                        'Refetch'
+                      )}
                     </Button>
                   </div>
                 </div>
